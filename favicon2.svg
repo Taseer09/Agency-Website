@@ -1,0 +1,8 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- Dark rounded square -->
+  <rect width="512" height="512" rx="100" fill="#0d0d0d" />
+  <!-- S — left half white, right half orange, bold and geometric -->
+  <text x="256" y="340" font-family="'Montserrat', 'Arial Black', sans-serif" font-weight="900" font-size="280" text-anchor="middle" fill="#ffffff">S</text>
+  <!-- Orange accent bar at bottom -->
+  <rect x="120" y="400" width="272" height="18" rx="9" fill="#ff4e00" />
+</svg>

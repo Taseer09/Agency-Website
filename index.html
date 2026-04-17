@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spinners | Elite Software Agency</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="favicon2.svg">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Custom Cursor -->
+    <div class="custom-cursor" id="custom-cursor"></div>
+
+    <nav id="navbar">
+        <div class="container nav-content">
+            <a href="index.html" class="logo" style="display: flex; align-items: center; text-decoration: none;">
+                <img src="logo-text.svg" alt="Spinners" style="height: 36px; width: auto;">
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="index.html#vision">Vision</a>
+                <a href="index.html#services">Services</a>
+                <a href="index.html#team">Our Team</a>
+                <div class="dropdown">
+                    <a>Resources</a>
+                    <div class="dropdown-menu">
+                        <a href="journal.html">Journal</a>
+                        <a href="careers.html">Careers</a>
+                        <a href="gallery.html">Agency Gallery</a>
+                    </div>
+                </div>
+            </div>
+            <div class="nav-actions" style="display: flex; align-items: center; gap: 1.5rem;">
+                <a href="index.html#contact" class="btn-editorial btn-solid"
+                    style="padding: 0.75rem 2rem; font-size: 0.9rem;">Initiate</a>
+                <div class="menu-toggle" id="mobile-menu">&#9776;</div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Asymmetrical Hero -->
+        <section class="hero container section-offwhite">
+            <div class="hero-grid">
+                <div>
+                    <span class="label-text">Elite Digital Engineering</span>
+                    <h1 class="huge-title">We Build<br>What You Envision.</h1>
+                    <p class="lead" style="margin-top: 3rem; margin-bottom: 3rem; color: var(--text-secondary);">
+                        Spinners is a premier software development agency dedicated to transforming ambitious concepts
+                        into high-performance digital realities. We combine elite engineering with pristine design
+                        to
+                        deliver scalable web applications, robust cloud infrastructure, and intelligent AI models
+                        that
+                        drive global businesses forward.
+                    </p>
+                    <div style="display: flex; gap: 1rem;">
+                        <a href="#services" class="btn-editorial btn-magnetic btn-solid">Explore Capabilities</a>
+                        <a href="#contact" class="btn-editorial btn-magnetic">Contact Us</a>
+                    </div>
+                </div>
+                <div class="hero-image-block" style="border-radius: 20px;">
+                    <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop"
+                        alt="Abstract Tech" style="filter: none; opacity: 1;">
+                </div>
+            </div>
+        </section>
+
+        <!-- Our Clients (Marquee) -->
+        <section id="clients" class="section-white" style="padding: 4rem 0;">
+            <div class="container text-center" style="margin-bottom: 2rem;">
+                <span class="label-text" style="text-align: center; display: block;">Trusted by Global Innovators</span>
+            </div>
+            <div class="marquee-container">
+                <div class="marquee-content">
+                    <span class="marquee-item">Global Fintech</span>
+                    <span class="marquee-item">McLaren Racing</span>
+                    <span class="marquee-item">Y-Combinator Alumni</span>
+                    <span class="marquee-item">Robinhood</span>
+                    <span class="marquee-item">Riot Games</span>
+                    <!-- Repeat for infinite scroll -->
+                    <span class="marquee-item">Global Fintech</span>
+                    <span class="marquee-item">McLaren Racing</span>
+                    <span class="marquee-item">Y-Combinator Alumni</span>
+                    <span class="marquee-item">Robinhood</span>
+                    <span class="marquee-item">Riot Games</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services / Capabilities -->
+        <section id="services" class="section-offwhite">
+            <div class="container">
+                <span class="label-text">Our Capabilities</span>
+                <h2 class="section-title">End-To-End<br>Engineering.</h2>
+
+                <div class="capabilities-list" style="margin-top: 4rem;">
+                    <div class="capability-row">
+                        <div>
+                            <span class="label-text">01</span>
+                            <h3>Web Development</h3>
+                        </div>
+                        <p>High-performance, immensely scalable full-stack applications built for global enterprises.
+                        </p>
+                    </div>
+                    <div class="capability-row">
+                        <div>
+                            <span class="label-text">02</span>
+                            <h3>AI & ML</h3>
+                        </div>
+                        <p>Custom neural networks and LLM integration to intelligently automate core corporate
+                            workflows.</p>
+                    </div>
+                    <div class="capability-row">
+                        <div>
+                            <span class="label-text">03</span>
+                            <h3>UI / UX Design</h3>
+                        </div>
+                        <p>Interfaces engineered with precision, grounded in cognitive psychology and Fitts' Law.</p>
+                    </div>
+                    <div class="capability-row">
+                        <div>
+                            <span class="label-text">04</span>
+                            <h3>Cloud Architecture</h3>
+                        </div>
+                        <p>Flawless multi-tenant deployments and edge integrations guaranteeing 99.99% uptime globally.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Team / Metrics -->
+        <section id="team-metrics" class="section-white">
+            <div class="container">
+                <div style="max-width: 800px;">
+                    <span class="label-text">The Collective</span>
+                    <h2 class="section-title">Minds Behind<br>The Code.</h2>
+                    <p class="lead" style="color: var(--text-secondary);">
+                        We are a meticulously vetted collective of elite engineers, data scientists, and creative
+                        directors. We thrive in an environment of total transparency and intellectual rigor.
+                    </p>
+                </div>
+
+                <div class="metrics-stack">
+                    <div class="metric-row">
+                        <span class="metric-label">Full Stack Developers</span>
+                        <span class="metric-number">15+</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">AI & ML Engineers</span>
+                        <span class="metric-number">08</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Data Scientists</span>
+                        <span class="metric-number">05</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Digital UI Designers</span>
+                        <span class="metric-number">10</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Founders Sections -->
+        <section id="team" class="section-offwhite">
+            <div class="container">
+                <span class="label-text">Leadership</span>
+                <h2 class="section-title">The Founders.</h2>
+                <p class="lead" style="color: var(--text-secondary); margin-bottom: 4rem;">
+                    Guided by industry veterans committed to bridging the gap between visionary ideas and flawless
+                    technical execution.
+                </p>
+
+                <div class="team-grid">
+                    <div class="team-card">
+                        <img src="https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&q=80&w=600"
+                            alt="Founder 1">
+                        <h3>James Sterling</h3>
+                        <p>CEO & Principal Architect</p>
+                    </div>
+                    <div class="team-card">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=600"
+                            alt="Founder 2">
+                        <h3>Elena Rodriguez</h3>
+                        <p>CTO & Head of AI</p>
+                    </div>
+                    <div class="team-card">
+                        <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=600"
+                            alt="Founder 3">
+                        <h3>Marcus Vance</h3>
+                        <p>Chief Design Officer</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Our Vision -->
+        <section id="vision" class="section-white">
+            <div class="container">
+                <div style="max-width: 900px;">
+                    <span class="label-text">Our Vision</span>
+                    <h2 class="section-title">Bridging Concept<br>& Reality.</h2>
+                    <p class="lead" style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 1.25rem;">
+                        Spinners was born out of a stark necessity: to bridge the critical gap between visionary ideas and
+                        flawless technical execution. We realized that traditional legacy agencies moved too slowly and
+                        modern freelancers lacked the architectural discipline required for enterprise scale.
+                    </p>
+                    <p class="lead" style="color: var(--text-secondary); font-size: 1.25rem;">
+                        Our mission is to shatter that compromise. We act as an extension of your primary team,
+                        providing unparalleled engineering quality, rigorous security standards, and a relentless
+                        dedication to aesthetic perfection.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section id="contact" class="section-offwhite" style="text-align: center; padding: 12rem 0;">
+            <div class="container">
+                <span class="label-text" style="text-align: center; display: block; margin-bottom: 2rem;">Initiate
+                    Protocol</span>
+                <h2 class="huge-title" style="margin-bottom: 3rem;">Ready To Build<br>The Future?</h2>
+                <p class="lead" style="margin: 0 auto 4rem auto; color: var(--text-secondary);">
+                    Join the ranks of leading global enterprises scaling alongside Spinners. Reach out today for a deeply
+                    technical consultation regarding your core architecture, product design, or AI implementation
+                    strategy.
+                </p>
+                <a href="#" class="btn-editorial btn-solid btn-magnetic"
+                    style="padding: 1.5rem 4rem; font-size: 1.25rem;">Start Your Project</a>
+            </div>
+        </section>
+
+        <!-- Back to Top Button -->
+        <button id="back-to-top" title="Go to top">&#8593;</button>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-grid">
+            <div>
+                <a href="/" class="logo" style="margin-bottom: 2rem; display: flex; align-items: center; text-decoration: none;">
+                    <img src="logo-text-light.svg" alt="Spinners" style="height: 40px; width: auto;">
+                </a>
+                <p style="color: rgba(255,255,255,0.6); max-width: 250px;">We build what you envision.</p>
+            </div>
+            <div>
+                <span class="label-text" style="color: rgba(255,255,255,0.4);">Services</span>
+                <a href="#" class="footer-link">Web Development</a>
+                <a href="#" class="footer-link">AI & ML Integration</a>
+                <a href="#" class="footer-link">UI/UX Design</a>
+                <a href="#" class="footer-link">Cloud Infrastructure</a>
+            </div>
+            <div>
+                <span class="label-text" style="color: rgba(255,255,255,0.4);">Company</span>
+                <a href="#vision" class="footer-link">Founders & Vision</a>
+                <a href="#team" class="footer-link">The Team</a>
+                <a href="careers.html" class="footer-link">Careers</a>
+                <a href="#contact" class="footer-link">Contact</a>
+            </div>
+            <div>
+                <span class="label-text" style="color: rgba(255,255,255,0.4);">Social</span>
+                <a href="#" class="footer-link">Twitter / X</a>
+                <a href="#" class="footer-link">LinkedIn</a>
+                <a href="#" class="footer-link">GitHub</a>
+                <a href="#" class="footer-link">Dribbble</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+
+</html>
