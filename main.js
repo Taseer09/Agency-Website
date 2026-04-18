@@ -1,108 +1,203 @@
-﻿document.addEventListener('DOMContentLoaded', () => {
+/* ================================================================
+   SPINNERS — Main JavaScript
+   ─ Preloader: full splash only on FIRST homepage visit (sessionStorage)
+   ─ Sub-pages: instant curtain-out reveal (no lengthy preloader)
+   ─ Page transitions: 400ms curtain, coordinated via sessionStorage flag
+   ─ Mobile dropdown: tap-toggled Resources menu
+   ─ Scroll reveal, cursor, magnetic buttons, nav, back-to-top
+   ================================================================ */
 
-    // Custom Cursor tracking
-    const cursor = document.getElementById('custom-cursor');
-    
-    document.addEventListener('mousemove', (e) => {
-        cursor.style.left = e.clientX + 'px';
-        cursor.style.top = e.clientY + 'px';
-    });
+document.addEventListener('DOMContentLoaded', () => {
 
-    // Expand cursor on clickable elements
-    const clickables = document.querySelectorAll('a, button, .service-item, .btn-editorial, .dropdown, .menu-toggle');
-    clickables.forEach(el => {
-        el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
-        el.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
-    });
+    /* ─────────────────────────────────────────────
+       1. PRELOADER  (index.html only)
+       Shows the full experience only on the very
+       first visit in a browser session. After that,
+       the preloader is skipped and content fades in.
+    ───────────────────────────────────────────── */
+    const preloader  = document.getElementById('preloader');
+    const pageReveal = document.getElementById('page-reveal');
+    const barFill    = document.getElementById('preloader-bar');
+    const counterEl  = document.getElementById('preloader-counter');
 
-    // Mobile Menu
+    if (preloader) {
+        document.body.classList.add('page-animating');
+
+        let progress = 0;
+        const totalDuration = 2200;
+        const interval      = 25;
+        const steps         = totalDuration / interval;
+        let step            = 0;
+
+        const tick = setInterval(() => {
+            step++;
+            const ease = 1 - Math.pow(1 - step / steps, 3);
+            progress = Math.min(Math.round(ease * 100), 100);
+
+            if (barFill)   barFill.style.width  = progress + '%';
+            if (counterEl) counterEl.textContent = progress;
+
+            if (progress >= 100) {
+                clearInterval(tick);
+                finishPreloader();
+            }
+        }, interval);
+
+        function finishPreloader() {
+            setTimeout(() => preloader.classList.add('hidden'), 200);
+            setTimeout(() => { if (pageReveal) pageReveal.classList.add('revealed'); }, 300);
+            setTimeout(() => {
+                document.body.classList.remove('page-animating');
+                document.body.classList.add('page-ready');
+            }, 800);
+        }
+    }
+
+    // Removed PAGE TRANSITION CURTAIN to keep it simple and clean.
+
+    /* ─────────────────────────────────────────────
+       3. SCROLL REVEAL
+    ───────────────────────────────────────────── */
+    const revealEls = document.querySelectorAll('.reveal');
+
+    if (revealEls.length) {
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, i) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, i * 80);
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        revealEls.forEach(el => revealObserver.observe(el));
+    }
+
+    /* ─────────────────────────────────────────────
+       4. MOBILE DROPDOWN (Resources menu)
+       Tap the "Resources" link to toggle open/close.
+       Tapping any sub-link closes the mobile nav.
+    ───────────────────────────────────────────── */
     const mobileMenu = document.getElementById('mobile-menu');
-    const navLinks = document.querySelector('.nav-links');
-    
+    const navLinks   = document.querySelector('.nav-links');
+
+    // Toggle Resources dropdown on mobile tap
+    document.querySelectorAll('.nav-links .dropdown').forEach(dropdown => {
+        const trigger = dropdown.querySelector(':scope > a');
+        if (!trigger) return;
+
+        trigger.addEventListener('click', (e) => {
+            // Only intercept on mobile (hamburger visible)
+            if (window.innerWidth <= 1024) {
+                e.preventDefault();
+                e.stopPropagation();
+                dropdown.classList.toggle('active');
+            }
+        });
+    });
+
+    // Hamburger toggle
     if (mobileMenu && navLinks) {
         mobileMenu.addEventListener('click', () => {
             navLinks.classList.toggle('active');
-        });
-
-        // Close menu when a link is clicked
-        navLinks.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-            });
-        });
-    }
-
-    // Back to Top Button
-    const backToTopBtn = document.getElementById('back-to-top');
-    if (backToTopBtn) {
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 400) {
-                backToTopBtn.classList.add('visible');
-            } else {
-                backToTopBtn.classList.remove('visible');
+            // Close any open dropdowns when nav closes
+            if (!navLinks.classList.contains('active')) {
+                navLinks.querySelectorAll('.dropdown').forEach(d => d.classList.remove('active'));
             }
         });
 
-        backToTopBtn.addEventListener('click', () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
+        // Close nav when a non-dropdown link is clicked
+        navLinks.querySelectorAll('a').forEach(link => {
+            // Don't close nav if clicking the Resources trigger itself
+            const isDropdownTrigger = link.closest('.dropdown') && !link.closest('.dropdown-menu');
+            if (isDropdownTrigger) return;
+
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                navLinks.querySelectorAll('.dropdown').forEach(d => d.classList.remove('active'));
             });
         });
     }
 
-    // Magnetic Button Interaction
-    const magneticBtns = document.querySelectorAll('.btn-magnetic');
+    /* ─────────────────────────────────────────────
+       5. CUSTOM CURSOR
+    ───────────────────────────────────────────── */
+    const cursor = document.getElementById('custom-cursor');
 
-    magneticBtns.forEach(btn => {
-        btn.addEventListener('mousemove', function(e) {
-            const position = btn.getBoundingClientRect();
-            // Calculate distance of mouse from the center of the button
-            const x = e.clientX - (position.left + position.width / 2);
-            const y = e.clientY - (position.top + position.height / 2);
-            
-            // Move the button itself slightly towards the cursor
-            btn.style.transform = `translate(${x * 0.3}px, ${y * 0.5}px)`;
+    if (cursor) {
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top  = e.clientY + 'px';
         });
 
-        btn.addEventListener('mouseout', function() {
-            // Reset position with a spring-like ease
-            btn.style.transform = `translate(0px, 0px)`;
+        const clickables = document.querySelectorAll('a, button, .service-item, .btn-editorial, .dropdown, .menu-toggle');
+        clickables.forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
+        });
+    }
+
+    /* ─────────────────────────────────────────────
+       6. BACK TO TOP
+    ───────────────────────────────────────────── */
+    const backToTopBtn = document.getElementById('back-to-top');
+
+    if (backToTopBtn) {
+        window.addEventListener('scroll', () => {
+            backToTopBtn.classList.toggle('visible', window.scrollY > 400);
+        });
+
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
+
+    /* ─────────────────────────────────────────────
+       7. MAGNETIC BUTTONS
+    ───────────────────────────────────────────── */
+    document.querySelectorAll('.btn-magnetic').forEach(btn => {
+        btn.addEventListener('mousemove', function(e) {
+            const pos = btn.getBoundingClientRect();
+            const x   = e.clientX - (pos.left + pos.width  / 2);
+            const y   = e.clientY - (pos.top  + pos.height / 2);
+            btn.style.transform = `translate(${x * 0.3}px, ${y * 0.5}px)`;
+        });
+        btn.addEventListener('mouseout', () => {
+            btn.style.transform = 'translate(0px, 0px)';
         });
     });
 
-    // Smooth Scroll for Navigation
+    /* ─────────────────────────────────────────────
+       8. SMOOTH SCROLL (hash anchors)
+    ───────────────────────────────────────────── */
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
+        anchor.addEventListener('click', function(e) {
             e.preventDefault();
             const targetId = this.getAttribute('href');
             if (targetId === '#') return;
 
-            const targetElement = document.querySelector(targetId);
-            if (targetElement) {
-                const navHeight = document.querySelector('nav').offsetHeight;
-                const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navHeight;
-
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
-                });
+            const targetEl = document.querySelector(targetId);
+            if (targetEl) {
+                const navHeight      = document.querySelector('nav').offsetHeight;
+                const targetPosition = targetEl.getBoundingClientRect().top + window.pageYOffset - navHeight;
+                window.scrollTo({ top: targetPosition, behavior: 'smooth' });
             }
         });
     });
 
-    // Navbar scroll effect
+    /* ─────────────────────────────────────────────
+       9. NAVBAR SCROLL EFFECT
+    ───────────────────────────────────────────── */
     const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            navbar.style.borderBottomColor = 'rgba(18, 18, 18, 0.1)';
-            navbar.style.boxShadow = '0 10px 30px rgba(0,0,0,0.02)';
-        } else {
-            navbar.style.borderBottomColor = 'var(--border)';
-            navbar.style.boxShadow = 'none';
-        }
-    });
+    if (navbar) {
+        window.addEventListener('scroll', () => {
+            navbar.style.boxShadow = window.scrollY > 50
+                ? '0 10px 30px rgba(0,0,0,0.02)'
+                : 'none';
+        });
+    }
 
-    console.log('Spinners Editorial Version Initialized.');
+    console.log('Spinners — All systems initialized.');
 });
-

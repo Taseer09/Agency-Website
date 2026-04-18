@@ -17,23 +17,45 @@
     <meta property="og:title" content="Spinners | Elite Software Agency">
     <meta property="og:description"
         content="Spinners is a premier software development agency delivering high-performance web applications, AI/ML solutions, and cloud infrastructure for global enterprises.">
-    <meta property="og:image" content="https://spinnerz.tech/assets/preview-image.jpg">
+    <meta property="og:image" content="https://spinnerz.tech/preview.png">
 
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://spinnerz.tech/">
     <meta property="twitter:title" content="Spinners | Elite Software Agency">
     <meta property="twitter:description"
         content="Spinners is a premier software development agency delivering high-performance web applications, AI/ML solutions, and cloud infrastructure for global enterprises.">
-    <meta property="twitter:image" content="https://spinnerz.tech/assets/preview-image.jpg">
+    <meta property="twitter:image" content="https://spinnerz.tech/preview.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800;900&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="favicon2.svg">
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+
+    <!-- ===== PRELOADER ===== -->
+    <div id="preloader">
+        <span class="preloader-corner tl">Spinners Technologies</span>
+        <span class="preloader-corner tr">Est. 2024</span>
+        <span class="preloader-corner bl">Digital Engineering</span>
+
+        <div class="preloader-content">
+            <div class="preloader-logo">Spin<span>ners</span></div>
+            <div class="preloader-tagline">Elite Digital Engineering</div>
+            <div class="preloader-bar-track">
+                <div class="preloader-bar-fill" id="preloader-bar"></div>
+            </div>
+        </div>
+
+        <div class="preloader-counter" id="preloader-counter">0</div>
+    </div>
+
+    <!-- Orange reveal wipe (sweeps up after preloader) -->
+    <div id="page-reveal"></div>
+
     <!-- Custom Cursor -->
     <div class="custom-cursor" id="custom-cursor"></div>
 
@@ -92,7 +114,7 @@
         </section>
 
         <!-- Our Clients (Marquee) -->
-        <section id="clients" class="section-white" style="padding: 4rem 0;">
+        <section id="clients" class="section-white reveal" style="padding: 4rem 0;">
             <div class="container text-center" style="margin-bottom: 2rem;">
                 <span class="label-text" style="text-align: center; display: block;">Trusted by Global Innovators</span>
             </div>
@@ -114,7 +136,7 @@
         </section>
 
         <!-- Services / Capabilities -->
-        <section id="services" class="section-offwhite">
+        <section id="services" class="section-offwhite reveal">
             <div class="container">
                 <span class="label-text">Our Capabilities</span>
                 <h2 class="section-title">End-To-End<br>Engineering.</h2>
@@ -156,7 +178,7 @@
         </section>
 
         <!-- Team / Metrics -->
-        <section id="team-metrics" class="section-white">
+        <section id="team-metrics" class="section-white reveal">
             <div class="container">
                 <div style="max-width: 800px;">
                     <span class="label-text">The Collective</span>
@@ -189,7 +211,7 @@
         </section>
 
         <!-- Founders Sections -->
-        <section id="team" class="section-offwhite">
+        <section id="team" class="section-offwhite reveal">
             <div class="container">
                 <span class="label-text">Leadership</span>
                 <h2 class="section-title">The Founders.</h2>
@@ -222,7 +244,7 @@
         </section>
 
         <!-- Our Vision -->
-        <section id="vision" class="section-white">
+        <section id="vision" class="section-white reveal">
             <div class="container">
                 <div style="max-width: 900px;">
                     <span class="label-text">Our Vision</span>
@@ -243,7 +265,7 @@
         </section>
 
         <!-- CTA Section -->
-        <section id="contact" class="section-offwhite" style="text-align: center; padding: 12rem 0;">
+        <section id="contact" class="section-offwhite reveal" style="text-align: center; padding: 12rem 0;">
             <div class="container">
                 <span class="label-text" style="text-align: center; display: block; margin-bottom: 2rem;">Initiate
                     Protocol</span>
