@@ -8,6 +8,205 @@
     --transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
+/* ============================================================
+   PRELOADER
+   ============================================================ */
+#preloader {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: #0a0a0a;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+#preloader.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+/* Animated background grid */
+#preloader::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(255,78,0,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,78,0,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    animation: preloader-grid 8s linear infinite;
+}
+
+@keyframes preloader-grid {
+    from { transform: translateY(0); }
+    to   { transform: translateY(60px); }
+}
+
+/* Scanning line */
+#preloader::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    animation: scan-line 2s ease-in-out infinite;
+}
+
+@keyframes scan-line {
+    0%   { top: -10%; opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 1; }
+    100% { top: 110%; opacity: 0; }
+}
+
+.preloader-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.5rem;
+}
+
+/* Logo pulse */
+.preloader-logo {
+    font-family: var(--font-main);
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    color: #fff;
+    text-transform: uppercase;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: preloader-logo-in 0.8s cubic-bezier(0.19,1,0.22,1) 0.2s forwards;
+}
+
+.preloader-logo span {
+    color: var(--accent);
+}
+
+@keyframes preloader-logo-in {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Tagline */
+.preloader-tagline {
+    font-family: var(--font-main);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: rgba(255,255,255,0.35);
+    opacity: 0;
+    animation: preloader-logo-in 0.8s cubic-bezier(0.19,1,0.22,1) 0.5s forwards;
+}
+
+/* Progress bar track */
+.preloader-bar-track {
+    width: clamp(240px, 35vw, 400px);
+    height: 2px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 2px;
+    overflow: hidden;
+    opacity: 0;
+    animation: preloader-logo-in 0.5s ease 0.6s forwards;
+}
+
+.preloader-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--accent);
+    border-radius: 2px;
+    transition: width 0.05s linear;
+    box-shadow: 0 0 12px rgba(255,78,0,0.6);
+}
+
+/* Counter */
+.preloader-counter {
+    font-family: var(--font-main);
+    font-size: clamp(4rem, 12vw, 8rem);
+    font-weight: 900;
+    letter-spacing: -0.06em;
+    color: rgba(255,255,255,0.06);
+    line-height: 1;
+    position: absolute;
+    bottom: 4rem;
+    right: 5vw;
+    user-select: none;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Corner labels */
+.preloader-corner {
+    position: absolute;
+    font-family: var(--font-main);
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: rgba(255,255,255,0.2);
+    opacity: 0;
+    animation: preloader-logo-in 0.5s ease 0.8s forwards;
+}
+
+.preloader-corner.tl { top: 2.5rem; left: 3rem; }
+.preloader-corner.tr { top: 2.5rem; right: 3rem; }
+.preloader-corner.bl { bottom: 2.5rem; left: 3rem; }
+
+/* Reveal wipe that sweeps up after loading */
+#page-reveal {
+    position: fixed;
+    inset: 0;
+    z-index: 99998;
+    background: var(--accent);
+    transform: translateY(0%);
+    pointer-events: none;
+    transition: transform 0.9s cubic-bezier(0.77,0,0.18,1);
+}
+
+#page-reveal.revealed {
+    transform: translateY(-100%);
+}
+
+/* Removed curtain transitions to keep it simple and clean */
+
+/* Page content fade-in after transition */
+body.page-animating main,
+body.page-animating footer,
+body.page-animating nav {
+    opacity: 0;
+}
+
+body.page-ready main,
+body.page-ready footer,
+body.page-ready nav {
+    opacity: 1;
+    transition: opacity 0.5s ease 0.1s;
+}
+
+/* ============================================================
+   SCROLL REVEAL (sections animate in on scroll)
+   ============================================================ */
+.reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s cubic-bezier(0.19,1,0.22,1), transform 0.8s cubic-bezier(0.19,1,0.22,1);
+}
+
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ============================================================
+   ORIGINAL RESET (unchanged)
+   ============================================================ */
 * {
     margin: 0;
     padding: 0;
@@ -560,6 +759,55 @@ footer {
         font-size: 0.8rem !important;
         width: auto;
         margin-bottom: 0;
+    }
+
+    /* ── Mobile Dropdown ── */
+    /* Disable hover-based dropdown on touch devices */
+    .dropdown:hover .dropdown-menu {
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(-10px);
+    }
+
+    /* Tap-toggled dropdown */
+    .dropdown.active .dropdown-menu {
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        transform: translateY(0) !important;
+        position: static;
+        box-shadow: none;
+        border: none;
+        background: transparent;
+        min-width: auto;
+        max-height: 200px;
+        overflow: visible;
+        padding: 0;
+    }
+
+    /* Inline the sub-links so they stack under Resources */
+    .dropdown.active .dropdown-menu a {
+        padding: 0.6rem 1rem;
+        border-bottom: none;
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+        text-transform: none;
+    }
+
+    /* Chevron arrow next to "Resources" */
+    .dropdown > a {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+    }
+
+    .dropdown > a::after {
+        content: '▾';
+        font-size: 0.65rem;
+        transition: transform 0.25s ease;
+    }
+
+    .dropdown.active > a::after {
+        transform: rotate(180deg);
     }
 }
 
