@@ -21,35 +21,45 @@ document.addEventListener('DOMContentLoaded', () => {
     const counterEl  = document.getElementById('preloader-counter');
 
     if (preloader) {
-        document.body.classList.add('page-animating');
+        const hasHash = window.location.hash && window.location.hash !== '#';
+        if (!sessionStorage.getItem('spinnersHomeVisited') && !hasHash) {
+            sessionStorage.setItem('spinnersHomeVisited', 'true');
+            document.body.classList.add('page-animating');
 
-        let progress = 0;
-        const totalDuration = 2200;
-        const interval      = 25;
-        const steps         = totalDuration / interval;
-        let step            = 0;
+            let progress = 0;
+            const totalDuration = 2200;
+            const interval      = 25;
+            const steps         = totalDuration / interval;
+            let step            = 0;
 
-        const tick = setInterval(() => {
-            step++;
-            const ease = 1 - Math.pow(1 - step / steps, 3);
-            progress = Math.min(Math.round(ease * 100), 100);
+            const tick = setInterval(() => {
+                step++;
+                const ease = 1 - Math.pow(1 - step / steps, 3);
+                progress = Math.min(Math.round(ease * 100), 100);
 
-            if (barFill)   barFill.style.width  = progress + '%';
-            if (counterEl) counterEl.textContent = progress;
+                if (barFill)   barFill.style.width  = progress + '%';
+                if (counterEl) counterEl.textContent = progress;
 
-            if (progress >= 100) {
-                clearInterval(tick);
-                finishPreloader();
+                if (progress >= 100) {
+                    clearInterval(tick);
+                    finishPreloader();
+                }
+            }, interval);
+
+            function finishPreloader() {
+                setTimeout(() => preloader.classList.add('hidden'), 200);
+                setTimeout(() => { if (pageReveal) pageReveal.classList.add('revealed'); }, 300);
+                setTimeout(() => {
+                    document.body.classList.remove('page-animating');
+                    document.body.classList.add('page-ready');
+                }, 800);
             }
-        }, interval);
-
-        function finishPreloader() {
-            setTimeout(() => preloader.classList.add('hidden'), 200);
-            setTimeout(() => { if (pageReveal) pageReveal.classList.add('revealed'); }, 300);
-            setTimeout(() => {
-                document.body.classList.remove('page-animating');
-                document.body.classList.add('page-ready');
-            }, 800);
+        } else {
+            // Already visited this session or navigated to a hash, hide immediately
+            sessionStorage.setItem('spinnersHomeVisited', 'true');
+            preloader.style.display = 'none';
+            if (pageReveal) pageReveal.style.display = 'none';
+            document.body.classList.add('page-ready');
         }
     }
 
@@ -172,20 +182,48 @@ document.addEventListener('DOMContentLoaded', () => {
     /* ─────────────────────────────────────────────
        8. SMOOTH SCROLL (hash anchors)
     ───────────────────────────────────────────── */
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    document.querySelectorAll('a[href*="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href');
-            if (targetId === '#') return;
+            try {
+                const url = new URL(this.href);
+                // Check if the link points to the same page
+                const isSamePage = url.pathname === window.location.pathname || 
+                                   (window.location.pathname.endsWith('/') && url.pathname.endsWith('index.html')) ||
+                                   (window.location.pathname.endsWith('index.html') && url.pathname.endsWith('/'));
 
-            const targetEl = document.querySelector(targetId);
+                if (isSamePage) {
+                    const targetId = url.hash;
+                    if (!targetId || targetId === '#') {
+                        if (this.getAttribute('href') === '#') e.preventDefault();
+                        return;
+                    }
+
+                    const targetEl = document.querySelector(targetId);
+                    if (targetEl) {
+                        e.preventDefault();
+                        const navHeight      = document.querySelector('nav').offsetHeight;
+                        const targetPosition = targetEl.getBoundingClientRect().top + window.pageYOffset - navHeight;
+                        window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+                        window.history.pushState(null, '', targetId);
+                    }
+                }
+            } catch(err) {
+                // Fallback / ignore invalid URLs
+            }
+        });
+    });
+
+    // On page load, if there's a hash, smooth scroll to it
+    if (window.location.hash) {
+        setTimeout(() => {
+            const targetEl = document.querySelector(window.location.hash);
             if (targetEl) {
                 const navHeight      = document.querySelector('nav').offsetHeight;
                 const targetPosition = targetEl.getBoundingClientRect().top + window.pageYOffset - navHeight;
                 window.scrollTo({ top: targetPosition, behavior: 'smooth' });
             }
-        });
-    });
+        }, 150);
+    }
 
     /* ─────────────────────────────────────────────
        9. NAVBAR SCROLL EFFECT
