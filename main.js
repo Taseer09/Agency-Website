@@ -238,5 +238,58 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    /* ─────────────────────────────────────────────
+       10. HYBRID CONTACT MODAL
+    ───────────────────────────────────────────── */
+    const contactModal = document.getElementById('contact-modal');
+    const modalClose = document.getElementById('modal-close');
+    const modalTriggers = document.querySelectorAll('.modal-trigger');
+
+    if (contactModal && modalClose) {
+        // Open Modal
+        modalTriggers.forEach(trigger => {
+            trigger.addEventListener('click', (e) => {
+                e.preventDefault();
+                contactModal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden'; // Prevent scrolling
+            });
+        });
+
+        // Close Modal
+        const closeModal = () => {
+            contactModal.classList.add('hidden');
+            document.body.style.overflow = '';
+        };
+
+        modalClose.addEventListener('click', closeModal);
+
+        // Close on overlay click
+        contactModal.addEventListener('click', (e) => {
+            if (e.target === contactModal) {
+                closeModal();
+            }
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !contactModal.classList.contains('hidden')) {
+                closeModal();
+            }
+        });
+    }
+
+    // Check for form submission success in URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('submitted') === 'true') {
+        // Remove parameter from URL to keep it clean
+        const newUrl = window.location.pathname + window.location.hash;
+        window.history.replaceState(null, '', newUrl);
+        
+        // Show a brief success alert (or can be integrated into the modal)
+        setTimeout(() => {
+            alert('Thank you! Your message has been sent successfully. We will be in touch shortly.');
+        }, 500);
+    }
+
     console.log('Spinners — All systems initialized.');
 });
