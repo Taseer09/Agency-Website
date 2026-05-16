@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Redirecting...</title>
+    <script type="text/javascript">
+        // Single Page Application URL Masking Helper for GitHub Pages
+        // This script runs when a user directly navigates to a masked URL like /services/
+        // It captures the path, and redirects the browser to the root with a hash (/#services)
+        // main.js will then read the hash, scroll to the section, and mask the URL back.
+        
+        var path = window.location.pathname;
+        // Remove leading and trailing slashes to get the section name
+        var section = path.replace(/^\/|\/$/g, '');
+        
+        if (section && section !== 'index.html') {
+            window.location.replace('/#' + section);
+        } else {
+            window.location.replace('/');
+        }
+    </script>
+</head>
+<body>
+</body>
+</html>
