@@ -185,27 +185,25 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('a[href*="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             try {
-                const url = new URL(this.href);
-                // Check if the link points to the same page
-                const isSamePage = url.pathname === window.location.pathname || 
-                                   (window.location.pathname.endsWith('/') && url.pathname.endsWith('index.html')) ||
-                                   (window.location.pathname.endsWith('index.html') && url.pathname.endsWith('/'));
+                const url = new URL(this.href, window.location.origin);
+                const targetId = url.hash;
 
-                if (isSamePage) {
-                    const targetId = url.hash;
-                    if (!targetId || targetId === '#') {
-                        if (this.getAttribute('href') === '#') e.preventDefault();
-                        return;
-                    }
-
+                if (targetId && targetId !== '#') {
                     const targetEl = document.querySelector(targetId);
                     if (targetEl) {
                         e.preventDefault();
                         const navHeight      = document.querySelector('nav').offsetHeight;
                         const targetPosition = targetEl.getBoundingClientRect().top + window.pageYOffset - navHeight;
                         window.scrollTo({ top: targetPosition, behavior: 'smooth' });
-                        window.history.pushState(null, '', targetId);
+                        // Clean URL Masking
+                        const cleanUrl = '/' + targetId.substring(1) + '/';
+                        window.history.pushState(null, '', cleanUrl);
+                    } else if (window.location.pathname !== '/' && window.location.pathname !== '/index.html') {
+                        // If element is not found on current page (e.g. we are on /journal)
+                        // Allow normal navigation to happen
                     }
+                } else if (this.getAttribute('href') === '#') {
+                    e.preventDefault();
                 }
             } catch(err) {
                 // Fallback / ignore invalid URLs
@@ -221,6 +219,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 const navHeight      = document.querySelector('nav').offsetHeight;
                 const targetPosition = targetEl.getBoundingClientRect().top + window.pageYOffset - navHeight;
                 window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+                // Clean URL Masking on load
+                const cleanUrl = '/' + window.location.hash.substring(1) + '/';
+                window.history.replaceState(null, '', cleanUrl);
             }
         }, 150);
     }
