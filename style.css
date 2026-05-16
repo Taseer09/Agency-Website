@@ -215,7 +215,6 @@ body.page-ready nav {
     cursor: none; /* Custom cursor override */
 }
 
-/* Custom Cursor */
 .custom-cursor {
     width: 25px;
     height: 25px;
@@ -223,7 +222,7 @@ body.page-ready nav {
     border-radius: 50%;
     position: fixed;
     pointer-events: none;
-    z-index: 10000;
+    z-index: 999999; /* Ensure cursor is above the modal */
     transform: translate(-50%, -50%);
     transition: width 0.2s, height 0.2s, background-color 0.2s;
 }
@@ -233,6 +232,14 @@ body.page-ready nav {
     height: 60px;
     background-color: rgba(255, 78, 0, 0.2);
     border-color: transparent;
+}
+
+/* Restore standard cursors for form elements */
+input, textarea {
+    cursor: text;
+}
+iframe {
+    cursor: auto;
 }
 
 html {
